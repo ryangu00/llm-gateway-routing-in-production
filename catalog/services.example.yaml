@@ -1,0 +1,47 @@
+# Synthetic fixture. Run --drift before bump revision; then accept named watches.
+schema_version: 1
+revision: 2026-10-04.1 # gateway.example.yaml backend-a.sh backend-b.sh
+revision_at: '2026-10-04T09:00:00-05:00'
+drift_baseline: required
+verified_at: '2026-10-04'
+services:
+  backend-a:
+    host: localhost
+    endpoint: http://127.0.0.1:9001/v1
+    model: model-x
+    ssot: fixtures/backend-a.sh
+    drift_watch:
+    - fixtures/backend-a.sh
+    local_patches:
+    - fixtures/backend-a.sh
+  backend-b:
+    host: localhost
+    endpoint: http://127.0.0.1:9002/v1
+    model: model-y
+    ssot: fixtures/backend-b.sh
+    drift_watch:
+    - fixtures/backend-b.sh
+    local_patches:
+    - fixtures/backend-b.sh
+  gateway:
+    host: localhost
+    endpoint: http://127.0.0.1:4000/v1
+    model: entry-a
+    ssot: examples/gateway.example.yaml
+    drift_watch:
+    - examples/gateway.example.yaml
+    shape: gateway
+    probe_key_env: LITELLM_MASTER_KEY
+    intentional_caps:
+      entry-a:
+        max_input_tokens: 32768
+        adr: ADR-0001
+        backend_model: model-x
+        review_by: '2026-12-31'
+        review: 'Synthetic example: reassess before expiry'
+aux_services:
+  aux-helper:
+    host: localhost
+    endpoint: http://127.0.0.1:8120/health
+    model: helper
+    ssot: fixtures/fake_services.py

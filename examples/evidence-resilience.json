@@ -1,0 +1,15 @@
+{
+  "kind": "resilience",
+  "resilience": [
+    {
+      "entry": "entry-a",
+      "timeout": 180,
+      "stream_timeout": 90,
+      "num_retries": 0,
+      "reason": "Synthetic timeout declaration"
+    }
+  ],
+  "matrix": "evaluation/runs/trigger-matrix-example.json",
+  "fallbacks": [],
+  "_note": "Synthetic schema example, not measurement evidence; referenced files must be generated for the candidate."
+}

@@ -1,0 +1,11 @@
+{
+  "kind": "fallback",
+  "fallbacks": [
+    {
+      "name": "cloud-tail",
+      "trigger_test": "workspace/research/trigger-cloud-tail.json"
+    }
+  ],
+  "fallback_removals": [],
+  "_note": "Synthetic schema example, not measurement evidence; referenced files must be generated for the candidate."
+}

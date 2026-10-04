@@ -1,0 +1,112 @@
+# Synthetic loopback topology, not a deployment record. Use --all-fake.
+model_list:
+- model_name: second-hop
+  litellm_params:
+    model: openai/model-y
+    api_base: http://127.0.0.1:9002/v1
+    api_key: local
+  model_info:
+    max_input_tokens: 250000
+    cap_reason: Synthetic fixture cap; review on your own path
+- model_name: second-hop-alt
+  litellm_params:
+    model: openai/model-y
+    api_base: http://127.0.0.1:9003/v1
+    api_key: local
+  model_info:
+    max_input_tokens: 250000
+    cap_reason: Synthetic fixture cap; review on your own path
+- model_name: cloud-tail
+  litellm_params:
+    model: openai/model-z
+    api_base: http://127.0.0.1:9004/v1
+    api_key: local
+  model_info:
+    max_input_tokens: 1000000
+    cap_reason: Synthetic fixture cap; review on your own path
+- model_name: cloud-tail-b
+  litellm_params:
+    model: openai/model-z
+    api_base: http://127.0.0.1:9004/v1
+    api_key: local
+  model_info:
+    max_input_tokens: 1000000
+    cap_reason: Synthetic fixture cap; review on your own path
+- model_name: isolation-group
+  litellm_params:
+    model: openai/model-x
+    api_base: http://127.0.0.1:9001/v1
+    api_key: local
+  model_info:
+    max_input_tokens: 1000000
+    cap_reason: Synthetic fixture cap; review on your own path
+- model_name: entry-a
+  litellm_params:
+    model: openai/model-x
+    api_base: http://127.0.0.1:9001/v1
+    api_key: local
+    timeout: 180
+    stream_timeout: 90
+    num_retries: 0
+  model_info:
+    max_input_tokens: 32768
+    cap_reason: Synthetic fixture cap; review on your own path
+- model_name: entry-b
+  litellm_params:
+    model: openai/model-x
+    api_base: http://127.0.0.1:9001/v1
+    api_key: local
+    timeout: 180
+    stream_timeout: 90
+    num_retries: 0
+  model_info:
+    max_input_tokens: 32768
+    cap_reason: Synthetic fixture cap; review on your own path
+- model_name: entry-c
+  litellm_params:
+    model: openai/model-x
+    api_base: http://127.0.0.1:9001/v1
+    api_key: local
+    timeout: 180
+    stream_timeout: 90
+    num_retries: 0
+  model_info:
+    max_input_tokens: 32768
+    cap_reason: Synthetic fixture cap; review on your own path
+router_settings:
+  num_retries: 1
+  allowed_fails: 2
+  cooldown_time: 60
+  enable_pre_call_checks: true
+  fallbacks:
+  - entry-a:
+    - second-hop
+    - cloud-tail
+  - entry-b:
+    - second-hop
+    - cloud-tail
+  - entry-c:
+    - second-hop
+    - cloud-tail-b
+  context_window_fallbacks:
+  - entry-a:
+    - second-hop
+    - isolation-group
+    - cloud-tail
+  - entry-b:
+    - second-hop
+    - isolation-group
+    - cloud-tail
+  - entry-c:
+    - second-hop
+    - isolation-group
+    - cloud-tail
+litellm_settings:
+  request_timeout: 300
+  drop_params: true
+general_settings:
+  master_key: os.environ/LITELLM_MASTER_KEY
+  disable_spend_logs: true
+  disable_adding_master_key_hash_to_db: true
+  allow_requests_on_db_unavailable: true
+  pass_through_request_timeout: 60

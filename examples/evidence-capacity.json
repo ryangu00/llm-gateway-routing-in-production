@@ -1,0 +1,12 @@
+{
+  "kind": "capacity",
+  "caps": [
+    {
+      "entry": "second-hop",
+      "max_input_tokens": 250000,
+      "reason": "Synthetic capacity example"
+    }
+  ],
+  "fallbacks": [],
+  "_note": "Synthetic schema example, not measurement evidence; referenced files must be generated for the candidate."
+}
